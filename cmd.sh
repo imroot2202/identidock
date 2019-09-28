@@ -1,9 +1,12 @@
 #!/bin/bash
 set -e
 
-if [ "$ENV" = 'DEV' ]; then
+if [ "$env" = 'DEV' ]; then
   echo "Running Development Server"
   exec python "identidock.py"
+elif [ "$env" = 'UNIT' ]; then
+	echo "Runing Unit Tests"
+	exec python "/app/tests.py"
 else
   echo "Running Production Server"
   exec uwsgi --http 0.0.0.0:9090 --wsgi-file /app/identidock.py \

@@ -6,7 +6,7 @@ RUN cd /tmp &&\
     make -C redis-stable &&\
     cp redis-stable/src/redis-cli /usr/local/bin &&\
     rm -rf /tmp/redis-stable
-RUN pip install Flask uWSGI requests redis
+RUN pip install Flask uWSGI requests redis 
 WORKDIR /app
 COPY app /app
 COPY cmd.sh /

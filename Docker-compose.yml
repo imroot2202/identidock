@@ -9,7 +9,7 @@
         environment:
             - ENV=DEV
         volumes: 
-            - c:/docker-py/app:/app
+            - c:/identidock/app:/app
         links:
             - "dnmonster"
             - "redis"
