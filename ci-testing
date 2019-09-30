@@ -1,0 +1,27 @@
+#this code need put into build->execute shell script
+COMPOSE_ARGS=" -f jenkins.yml -p jenkins "
+sudo docker-compose $COMPOSE_ARGS stop
+sudo docker-compose $COMPOSE_ARGS rm --force -v
+
+#create system
+sudo docker-compose $COMPOSE_ARGS build --no-cache
+sudo docker-compose $COMPOSE_ARGS up -d
+
+#start module testing
+sudo docker-compose $COMPOSE_ARGS run --no-deps --rm -e ENV=UNIT identidock 
+ERR=$?
+
+#goto test all system
+if [$ERR -eq 0]; then
+	IP=$(sudo docker inspect -f {{.NetworkSettings.IPAddress}}
+    	jenkins_identidock_1)
+CODE=$(curl -sL -w "%{http_code}" $IP:9090/monster/bla -o /dev/null) || true
+if [ $CODE -nr 200 ]; then
+	echo "Site returned " $CODE
+    ERR=1
+   fi
+  fi
+# Stop and delete system
+sudo docker-compose $COMPOSE_ARGS stop 
+sudo docker-compose $COMPOSE_ARGS rm --force -v 
+return $ERR 
