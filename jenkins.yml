@@ -7,7 +7,7 @@ identidock:
     links:
     - "dnmonster"
     - "redis"
-#
+hfkjadsflaksdhgfjdagsjfsagdf
 dnmonster:
   image: "amouat/dnmonster:1.0"
 redis:
